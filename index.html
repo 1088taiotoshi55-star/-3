@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>晴満専用言葉ナビ！・Ver31</title>
+    <style>
+        :root { --primary: #ff4757; --locked: #747d8c; --success: #2ed573; --selected: #fff9db; --accent: #f1c40f; }
+        body { margin: 0; font-family: sans-serif; overflow: hidden; background: #000; color: white; -webkit-tap-highlight-color: transparent; }
+        #bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('background.jpg') no-repeat center center; background-size: cover; z-index: -1; filter: brightness(0.6); background-color: #222; }
+        #menu-screen { height: 100vh; overflow-y: auto; padding: 20px; box-sizing: border-box; position: relative; }
+        /* 晴満専用ヘッダー */
+        .harumichi-header { text-align: center; padding: 30px 0 10px 0; }
+        .main-title { font-size: 32px; font-weight: bold; color: gold; text-shadow: 2px 2px 10px rgba(255,215,0,0.5), -1px -1px 0 #000; margin-bottom: 5px; }
+        .sub-title { font-size: 14px; color: #fff; letter-spacing: 1px; font-weight: bold; opacity: 0.9; }
+
+        .screen { display: none; height: 100vh; background: rgba(255,255,255,0.95); flex-direction: column; align-items: center; justify-content: flex-start; padding: 15px; color: #333; box-sizing: border-box; overflow-y: auto; }
+        .path { display: flex; flex-direction: column-reverse; align-items: center; gap: 40px; padding: 40px 0 100px 0; }
+        .node { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 4px solid white; transition: 0.2s; background: var(--locked); }
+        .node.active { background: linear-gradient(135deg, #ff6b81, #ff4757); cursor: pointer; }
+        .node.goal { background: #747d8c; color: white; width: 100px; height: 100px; border-color: #eee; font-size: 20px; opacity: 0.5; }
+        .node.goal.active { background: linear-gradient(45deg, gold, orange, red); color: white; border-color: gold; opacity: 1; animation: glow 1.5s infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 5px gold; } 50% { box-shadow: 0 0 25px orange; } }
+        .version-info { position: fixed; top: 10px; left: 10px; font-size: 10px; color: rgba(255, 255, 255, 0.3); z-index: 100; pointer-events: none; }
+        .btn-admin { position: fixed; bottom: 5px; left: 5px; font-size: 10px; padding: 5px 10px; background: rgba(0,0,0,0.1); color: rgba(255,255,255,0.2); border: none; border-radius: 5px; cursor: pointer; z-index: 50; }
+        .nav-footer { position: fixed; bottom: 20px; width: 100%; display: none; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 3000; pointer-events: none; }
+        .nav-footer button { pointer-events: auto; width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white; }
+        .btn-back { background: #546e7a; }
+        .btn-quit { background: #ff4757; font-size: 20px !important; }
+        .card { width: 100%; max-width: 500px; background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin: 20px 0 80px 0; max-height: 85vh; overflow-y: auto; }
+        .q-container { border: 2px solid #eee; border-radius: 12px; padding: 10px; margin-bottom: 10px; }
+        .q-container.active { border-color: var(--primary); background: #fffafa; }
+        .q-container.done { border-color: var(--success); background: #f0fff4; }
+        .q-part { font-size: 16px; font-weight: bold; line-height: 1.5; color: #333; }
+        .btn-speak { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ddd; background: #fff; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+        .btn-speak.active { background: var(--accent); animation: speaking 1s infinite; }
+        @keyframes speaking { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .choice-item { display: flex; align-items: center; gap: 4px; height: 65px; }
+        .btn-word { flex: 1; height: 100%; font-size: 16px; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; font-weight: bold; }
+        .btn-next-large { width: 100%; padding: 22px; margin-top: 15px; border: none; border-radius: 40px; font-size: 22px; font-weight: bold; cursor: pointer; color: white; background: var(--success); }
+        ruby { font-size: 16px; } rt { font-size: 10px; color: #666; }
+        .btn-speak-small { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer; font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        #goal-screen { background: #000; color: gold; display: none; flex-direction: column; align-items: center; padding: 0; overflow-y: auto; }
+        #goal-img { width: 100%; height: 40vh; background: url('k11.jpg') no-repeat center center; background-size: cover; border-bottom: 5px solid gold; }
+        .goal-text-box { padding: 30px 20px; text-align: center; line-height: 1.8; }
+        .goal-msg-title { font-size: 32px; font-weight: bold; margin-bottom: 20px; color: #fff; text-shadow: 0 0 10px gold; }
+        .goal-msg-body { font-size: 18px; color: #eee; text-align: left; }
+    </style>
+</head>
+<body onclick="App.initAudio()">
+<div id="bg"></div>
+<div id="menu-screen">
+    <div class="version-info">20260111ver31</div>
+    <div class="harumichi-header">
+        <div class="main-title">晴満専用言葉ナビ！</div>
+        <div class="sub-title">全部出来たらスゴイ!</div>
+    </div>
+    <div class="path" id="game-path"></div>
+    <button class="btn-admin" onclick="App.adminMenu()">管理</button>
+</div>
+<div id="nav-footer" class="nav-footer"><button class="btn-back" onclick="App.handleBack()">戻る</button><button class="btn-quit" onclick="App.handleQuit()">×</button></div>
+<div id="intro-screen" class="screen"><div class="card" style="text-align:center;"><h2 id="intro-title" style="color:var(--primary);"></h2><div id="intro-msg" style="padding:20px; font-size:18px; white-space:pre-line;"></div><button class="btn-next-large" style="background:var(--primary);" onclick="App.startQuiz()">挑戦するで！</button></div></div>
+<div id="quiz-screen" class="screen"><div class="card" id="quiz-card"></div></div>
+<div id="expl-screen" class="screen"><h1 id="expl-title"></h1><div class="card" style="text-align:center;"><div id="expl-q-review" style="text-align:left; margin-bottom:10px;"></div><p style="color:#666; font-weight:bold; margin: 5px 0;">正しい答えや！</p><div id="expl-ans" style="background:#f0f7ff; padding:12px; border-radius:10px; font-size:24px; color:blue; font-weight:bold; border:2px solid #bcd;"></div><div id="expl-note-box" style="background:#fffde7; border:1px solid #fbc02d; padding:12px; border-radius:8px; font-size:14px; color:#555; text-align:left; margin-top:10px; line-height:1.4; display:none;"></div><button class="btn-next-large" onclick="App.next()">次へ進む</button></div></div>
+<div id="result-screen" class="screen"><h1 style="margin-top:20px;">結果発表</h1><div class="card" style="text-align:center; margin-bottom: 40px;"><div id="res-img" style="width:100%; margin-bottom:10px;"><img id="res-img-tag" style="width:100%; max-height:180px; object-fit:contain; border-radius:10px;"></div><div id="res-stats" style="font-size:22px; margin-bottom:15px; font-weight:bold;"></div><div id="res-comment" style="padding:15px; background:#fffef0; border:2px dashed var(--primary); border-radius:10px; margin-bottom:15px;"></div><button class="btn-next-large" style="background:var(--primary); margin-top:10px;" onclick="location.reload()">すごろくに戻る</button></div></div>
+
+<div id="goal-screen">
+    <div id="goal-img"></div>
+    <div class="goal-text-box">
+        <div class="goal-msg-title">🎊 完全制覇！おめでとう！ 🎊</div>
+        <div class="goal-msg-body">
+            全30セット、すべての難問を突破したな！本当に、本当にお疲れ様！<br><br>
+            君が毎日コツコツと積み上げてきた努力は、誰にも真似できない素晴らしい宝物や。同音異義語も、難しいことわざも、今では君の力の一部になっているで。<br><br>
+            この「すごろく」を最後まで走り抜けた君なら、どんな高い壁も乗り越えられる。お父さんもお母さんも、君の頑張りを心から誇りに思っているよ！<br><br>
+            君の未来は、この言葉たちのように豊かで、希望に満ち溢れている。これからも自信を持って、新しい世界へ羽ばたいていこう！<br><br>
+            感動をありがとう！君は最高や！✨
+        </div>
+        <button class="btn-next-large" style="background:linear-gradient(to right, #ff416c, #ff4b2b); margin-top:40px;" onclick="location.reload()">もう一度一覧を見る</button>
+    </div>
+</div>
+
+<script>
+    const parseRuby = (str) => { if (!str.includes('|')) return str; const [kanji, yomi] = str.split('|'); return `<ruby>${kanji}<rt>${yomi}</rt></ruby>`; };
+    const getSpeechText = (str) => { if (!str.includes('|')) return str; return str.split('|')[1]; };
+
+    const commonRender = function(card, data) {
+        card.innerHTML = ""; const set = App.sets[App.setIdx]; const isMultiStep = data.ans1 !== undefined;
+        const step = App.currentStep || 1; const displayChoices = data.shuffledChoices || data.choices;
+        const totalSteps = Object.keys(data).filter(k=>k.startsWith('ans')).length || 1; const isPool = data.isPool === true;
+        const info = document.createElement('div'); info.style.cssText = "background:#333;color:gold;padding:10px;border-radius:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;";
+        info.innerHTML = `<span>○ あてはまる言葉を選べ（${step}/${totalSteps}）</span><button class="btn-speak" style="width:30px;height:30px;font-size:14px;">🔊</button>`;
+        info.querySelector('.btn-speak').onclick = (e) => App.speak(info.innerText, e.currentTarget); card.appendChild(info);
+        const createQBox = (text, active, done, idx) => {
+            const box = document.createElement('div'); box.className = `q-container ${active ? 'active' : ''} ${done ? 'done' : ''}`;
+            const cleanAns = done ? App.pickedWords[idx-1] : "";
+            box.innerHTML = `<div style="font-size:11px;color:#888;">${isMultiStep ? (isPool?'回答':'文')+idx : (idx===1?'問題':'例文')}</div><div style="display:flex;align-items:center;justify-content:space-between;">` +
+                `<div class="q-part">${done ? text.replace(/（　）/g, `「${cleanAns}」`) : text}</div><button class="btn-speak">🔊</button></div>`;
+            box.querySelector('.btn-speak').onclick = (e) => App.speak(box.querySelector('.q-part').innerText, e.currentTarget); return box;
+        };
+        if (isMultiStep) { for(let i=1; i<=totalSteps; i++) if (data['q'+i]) card.appendChild(createQBox(data['q'+i], step===i, step>i, i)); }
+        else { card.appendChild(createQBox(data.q1, true, false, 1)); card.appendChild(createQBox(data.q2, true, false, 2)); }
+        const grid = document.createElement('div'); grid.className = 'choices-grid';
+        displayChoices.forEach((word) => {
+            const item = document.createElement('div'); item.className = 'choice-item';
+            const bWord = document.createElement('button'); bWord.className = 'btn-word'; bWord.innerHTML = parseRuby(word);
+            bWord.onclick = () => {
+                App.stopSpeech(); const sel = word.split('|')[0];
+                if (isMultiStep) {
+                    const allAns = []; for(let i=1; i<=totalSteps; i++) allAns.push(data['ans'+i].split('|')[0]);
+                    const ok = isPool ? (allAns.includes(sel) && !App.pickedWords.includes(sel)) : (sel === data['ans'+step].split('|')[0]);
+                    if (ok) {
+                        App.pickedWords.push(sel); if (App.pickedWords.length < totalSteps) { App.currentStep++; App.playSound(true); App.ask(); }
+                        else { 
+                            let html = '<div style="border-left:5px solid var(--success);background:#f9fff9;padding:10px;margin-top:15px;border-radius:0 8px 8px 0;">';
+                            let heads = []; for(let i=1; i<=totalSteps; i++){ heads.push(data['ans'+i].split('|')[0]); html += `<div style="margin-bottom:8px;">${i}. ${data['q'+i].replace(/（　）/g, `<b>「${data['ans'+i].split('|')[0]}」</b>`)}</div>`; }
+                            App.check(true, heads.join(" / "), html + '</div>', data.expl);
+                        }
+                    } else { App.check(false, allAns.join(" / "), "残念！正解はこちらや。", data.expl); }
+                } else {
+                    const ok = (word === data.choices[data.correct]); const ans = data.choices[data.correct].split('|')[0];
+                    let html = `<div style="border-left:5px solid var(--success);background:#f9fff9;padding:10px;margin-top:15px;border-radius:0 8px 8px 0;"><div style="margin-bottom:8px;">問題：${data.q1.replace(/（　）/g, `<b>「${ans}」</b>`)}</div><div>例文：${data.q2.replace(/（　）/g, `<b>「${ans}」</b>`)}</div></div>`;
+                    App.check(ok, ans, html, data.expl);
+                }
+            };
+            const bSpk = document.createElement('button'); bSpk.className = 'btn-speak-small'; bSpk.innerHTML = '🔊';
+            bSpk.onclick = (e) => { e.stopPropagation(); App.speak(getSpeechText(word), bSpk); };
+            item.appendChild(bWord); item.appendChild(bSpk); grid.appendChild(item);
+        }); card.appendChild(grid);
+    };
+
+    const App = {
+        sets: [], pickedWords: [], setIdx: 0, qIdx: 0, okCount: 0, currentStep: 1, currentScreen: 'map',
+        synth: window.speechSynthesis, voices: [], audioCtx: null, isFanfarePlayed: false,
+        imgs: ["./k1.jpg","./k2.jpg","./k3.jpg","./k4.jpg","./k5.jpg","./k6.jpg","./k7.jpg","./k8.jpg","./k9.jpg","./k10.jpg"],
+        start() {
+            this.sets = window.quizSets ? window.quizSets.slice(0, 30) : [];
+            const saved = localStorage.getItem('sugoroku_v10');
+            this.progress = saved ? JSON.parse(saved) : Array(30).fill(0);
+            this.drawMap();
+            if (this.synth) { const loadV = () => { this.voices = this.synth.getVoices(); }; loadV(); if (this.synth.onvoiceschanged !== undefined) this.synth.onvoiceschanged = loadV; }
+        },
+        initAudio() { 
+            if (!this.audioCtx) {
+                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (!this.isFanfarePlayed) { this.playFanfare(); this.isFanfarePlayed = true; }
+            }
+            if (this.audioCtx.state === 'suspended') this.audioCtx.resume(); 
+            if (this.synth) this.synth.speak(new SpeechSynthesisUtterance("")); 
+        },
+        playFanfare() {
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            notes.forEach((freq, i) => {
+                const o = this.audioCtx.createOscillator(); const g = this.audioCtx.createGain();
+                o.type = 'triangle'; o.connect(g); g.connect(this.audioCtx.destination);
+                const start = this.audioCtx.currentTime + (i * 0.15);
+                o.frequency.setValueAtTime(freq, start);
+                g.gain.setValueAtTime(0, start);
+                g.gain.linearRampToValueAtTime(0.2, start + 0.05);
+                g.gain.linearRampToValueAtTime(0, start + 0.4);
+                o.start(start); o.stop(start + 0.5);
+            });
+        },
+        speak(t, b) {
+            if (!this.synth) return; 
+            this.synth.cancel(); document.querySelectorAll('.btn-speak, .btn-speak-small').forEach(x => x.classList.remove('active'));
+            setTimeout(() => {
+                const u = new SpeechSynthesisUtterance(t.replace(/（　）/g, "まるまる").replace(/<b>|<\/b>|「|」/g, ""));
+                u.lang = 'ja-JP'; const ja = this.voices.find(v => v.lang.includes('ja')); if (ja) u.voice = ja;
+                if(b) { u.onstart = () => b.classList.add('active'); u.onend = () => b.classList.remove('active'); } this.synth.speak(u);
+            }, 10);
+        },
+        stopSpeech() { if (this.synth) this.synth.cancel(); document.querySelectorAll('.btn-speak, .btn-speak-small').forEach(x => x.classList.remove('active')); },
+        drawMap() {
+            this.currentScreen = 'map'; document.getElementById('nav-footer').style.display = 'none'; 
+            document.getElementById('menu-screen').style.display = 'block'; document.getElementById('goal-screen').style.display = 'none';
+            const container = document.getElementById('game-path'); container.innerHTML = '';
+            const goal = document.createElement('div');
+            const allCleared = (this.progress[29] === 100);
+            goal.className = `node goal ${allCleared ? 'active' : ''}`; goal.innerText = 'GOAL!';
+            if (allCleared) goal.onclick = () => this.initGoal(); container.appendChild(goal);
+            for (let i = 29; i >= 0; i--) {
+                const node = document.createElement('div'); const unlocked = (i === 0 || this.progress[i-1] === 100);
+                node.className = `node ${unlocked ? 'active' : 'locked'}`; node.style.transform = `translateX(${Math.sin(i * 1.2) * 60}px)`;
+                node.innerHTML = `<span>${i+1}</span>` + (this.progress[i] > 0 ? `<div style="position:absolute; top:-22px; font-size:11px; color:white; width:100%; text-align:center;">${this.progress[i]}%</div>` : "");
+                if (unlocked && this.sets[i]) node.onclick = () => this.initSet(i); container.appendChild(node);
+            }
+        },
+        initSet(idx) {
+            this.setIdx = idx; this.currentScreen = 'intro'; document.getElementById('nav-footer').style.display = 'flex';
+            document.getElementById('menu-screen').style.display = 'none'; document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById('intro-screen').style.display = 'flex'; document.getElementById('intro-title').innerText = this.sets[idx].title;
+            document.getElementById('intro-msg').innerText = `${this.sets[idx].category || "特訓"}の特訓や！\n空欄を埋めてマスターを目指そう！`;
+        },
+        initGoal() {
+            document.getElementById('menu-screen').style.display = 'none';
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById('goal-screen').style.display = 'flex';
+        },
+        startQuiz() { this.qIdx = 0; this.okCount = 0; this.currentStep = 1; this.ask(); },
+        ask() {
+            this.currentScreen = 'quiz'; const q = this.sets[this.setIdx].questions[this.qIdx];
+            if (this.currentStep === 1) { q.shuffledChoices = [...q.choices].sort(() => Math.random() - 0.5); this.pickedWords = []; }
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none'); document.getElementById('quiz-screen').style.display = 'flex';
+            q.render(document.getElementById('quiz-card'), q);
+        },
+        check(ok, ans, rev, expl) {
+            this.currentScreen = 'expl'; if (ok) this.okCount++; this.playSound(ok);
+            document.getElementById('quiz-screen').style.display = 'none'; document.getElementById('expl-screen').style.display = 'flex';
+            const t = document.getElementById('expl-title'); t.innerText = ok ? "⭕️ 正解や！" : "❌ あかん！"; t.style.color = ok ? "red" : "blue";
+            document.getElementById('expl-q-review').innerHTML = rev; document.getElementById('expl-ans').innerText = ans;
+            const nb = document.getElementById('expl-note-box'); if(expl) { nb.innerText = expl; nb.style.display = 'block'; } else { nb.style.display = 'none'; }
+        },
+        next() { this.qIdx++; this.currentStep = 1; if(this.qIdx < this.sets[this.setIdx].questions.length) this.ask(); else this.finish(); },
+        finish() {
+            this.currentScreen = 'result'; const tot = this.sets[this.setIdx].questions.length;
+            const rate = Math.round((this.okCount / tot) * 100); this.progress[this.setIdx] = Math.max(this.progress[this.setIdx], rate);
+            localStorage.setItem('sugoroku_v10', JSON.stringify(this.progress));
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none'); document.getElementById('result-screen').style.display = 'flex';
+            document.getElementById('res-img-tag').src = this.imgs[Math.floor(Math.random()*10)];
+            document.getElementById('res-stats').innerText = `${this.okCount} / ${tot} 問正解 (${rate}%)`;
+            document.getElementById('res-comment').innerText = "よう頑張ったな！次もこの調子や！"; document.getElementById('nav-footer').style.display = 'none'; 
+        },
+        handleBack() { this.stopSpeech(); if (this.currentScreen==='intro') this.drawMap(); else if (this.currentScreen==='quiz') { if (this.currentStep>1){this.currentStep--;this.ask();} else if (this.qIdx>0){this.qIdx--;this.currentStep=1;this.ask();} else this.initSet(this.setIdx); } else if (this.currentScreen==='expl') this.ask(); },
+        handleQuit() { if(confirm("中断して一覧に戻るで？")) { this.stopSpeech(); location.reload(); } },
+        playSound(win) { try { if(!this.audioCtx) return; const o = this.audioCtx.createOscillator(); const g = this.audioCtx.createGain(); o.connect(g); g.connect(this.audioCtx.destination); if(win) { o.frequency.setValueAtTime(660, this.audioCtx.currentTime); o.frequency.setValueAtTime(880, this.audioCtx.currentTime+0.1); g.gain.setTargetAtTime(0.1, this.audioCtx.currentTime, 0.1); o.start(); o.stop(this.audioCtx.currentTime+0.3); } else { o.type='sawtooth'; o.frequency.setValueAtTime(100, this.audioCtx.currentTime); g.gain.setTargetAtTime(0.2, this.audioCtx.currentTime, 0.1); o.start(); o.stop(this.audioCtx.currentTime+0.3); } } catch(e){} },
+        adminMenu() { 
+            const pw = prompt("PW"); if(pw!=="1234")return; 
+            const m=prompt("1:指定完了 2:指定リセット 3:全リセット all:全完了"); 
+            if(m==="1"){const n=parseInt(prompt("1-30"));if(n>=1&&n<=30){this.progress[n-1]=100;this.save();}} 
+            else if(m==="2"){const n=parseInt(prompt("1-30"));if(n>=1&&n<=30){this.progress[n-1]=0;this.save();}} 
+            else if(m==="3"){if(confirm("ほんまに全部リセットするで？")){this.progress=Array(30).fill(0);this.save();}} 
+            else if(m==="all"){this.progress=Array(30).fill(100);this.save();} 
+        },
+        save() { localStorage.setItem('sugoroku_v10', JSON.stringify(this.progress)); location.reload(); }
+    };
+    window.onload = () => App.start();
+</script>
+
+<script src="set1.js"></script><script src="set2.js"></script><script src="set3.js"></script>
+<script src="set4.js"></script><script src="set5.js"></script><script src="set6.js"></script>
+<script src="set7.js"></script><script src="set8.js"></script><script src="set9.js"></script>
+<script src="set10.js"></script><script src="set11.js"></script><script src="set12.js"></script>
+<script src="set13.js"></script><script src="set14.js"></script><script src="set15.js"></script>
+<script src="set16.js"></script><script src="set17.js"></script><script src="set18.js"></script>
+<script src="set19.js"></script><script src="set20.js"></script><script src="set21.js"></script>
+<script src="set22.js"></script><script src="set23.js"></script><script src="set24.js"></script>
+<script src="set25.js"></script><script src="set26.js"></script><script src="set27.js"></script>
+<script src="set28.js"></script><script src="set29.js"></script><script src="set30.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+if (!window.quizSets) window.quizSets = [];
+window.quizSets[3] = {
+    title: "対義語（その1）",
+    questions: [
+        { q1: "1. 失敗した（　）を探る。", ans1: "原因", q2: "1. テストの（　）が気になる。", ans2: "結果", type: "antonym", choices: ["原因", "結果", "鉛筆", "食べる", "青い", "明日"], render: commonRender },
+        { q1: "2. 悪い点は直し、（　）はのばすべきだ。", ans1: "長所", q2: "2. （　）だけでなく、良い所にも目を向けよう。", ans2: "短所", type: "antonym", choices: ["長所", "短所", "バナナ", "寝る", "広い", "去年"], render: commonRender },
+        { q1: "3. かがやかしい（　）が待っている。", ans1: "未来", q2: "3. （　）の失敗を気にすべきではない。", ans2: "過去", type: "antonym", choices: ["未来", "過去", "カレー", "走る", "重い", "昨日"], render: commonRender },
+        { q1: "4. （　）して仕事を任せられる。", ans1: "安心", q2: "4. テストの結果が（　）だ。", ans2: "心配", type: "antonym", choices: ["安心", "心配", "トイレ", "跳ぶ", "赤い", "今日"], render: commonRender },
+        { q1: "5. 老後の生活に（　）を抱く。", ans1: "不安", q2: "5. 仕事がうまくいって（　）した。", ans2: "安心", type: "antonym", choices: ["不安", "安心", "電話", "磨く", "固い", "来週"], render: commonRender },
+        { q1: "6. 好物をおなかいっぱい食べて（　）した。", ans1: "満足", q2: "6. 意見が通らず（　）な顔になる。", ans2: "不満", type: "antonym", choices: ["満足", "不満", "標識", "歌う", "遅い", "正午"], render: commonRender },
+        { q1: "7. 通学路は車が通らないので（　）だ。", ans1: "安全", q2: "7. 車道に急に飛び出すのは（　）だ。", ans2: "危険", type: "antonym", choices: ["安全", "危険", "扇風機", "泳ぐ", "丸い", "夕方"], render: commonRender },
+        { q1: "8. 万国博覧会の（　）が宣言された。", ans1: "開会", q2: "8. 全日程を終え、オリンピックが（　）した。", ans2: "閉会", type: "antonym", choices: ["開会", "閉会", "ノート", "投げる", "甘い", "深夜"], render: commonRender },
+        { q1: "9. かつてない（　）の評価をもらった作品。", ans1: "最高", q2: "9. 冬は（　）気温が氷点下になる。", ans2: "最低", type: "antonym", choices: ["最高", "最低", "メガネ", "踊る", "苦い", "元旦"], render: commonRender },
+        { q1: "10. お客さんが増えて、店は（　）になった。", ans1: "黒字", q2: "10. ぜいたくをしたため、家計が（　）になった。", ans2: "赤字", type: "antonym", choices: ["黒字", "赤字", "時計", "掃除", "長い", "平日"], render: commonRender },
+        { q1: "11. 運動会で期待（　）の活躍をする。", ans1: "以上", q2: "11. 小学生（　）の子どもは無料で入場できます。", ans2: "以下", type: "antonym", choices: ["以上", "以下", "窓", "叩く", "低い", "今夜"], render: commonRender },
+        { q1: "12. テストの直しが（　）終わった。", ans1: "全部", q2: "12. （　）の人だけが議案に反対している。", ans2: "一部", type: "antonym", choices: ["全部", "一部", "床", "笑う", "早い", "朝食"], render: commonRender },
+        { q1: "13. ゴール手前の（　）コースを全力で走る。", ans1: "直線", q2: "13. （　）をなめらかにえがくのは難しい。", ans2: "曲線", type: "antonym", choices: ["直線", "曲線", "壁", "怒る", "狭い", "昼寝"], render: commonRender },
+        { q1: "14. 入院して、（　）のありがたさが分かる。", ans1: "健康", q2: "14. （　）にかかったので、薬を飲んだ。", ans2: "病気", type: "antonym", choices: ["健康", "病気", "雲", "忘れる", "太い", "散歩"], render: commonRender },
+        { q1: "15. 結婚して（　）に暮らす。", ans1: "幸福", q2: "15. （　）な境遇に負けず、明るく生きる。", ans2: "不幸", type: "antonym", choices: ["幸福", "不幸", "砂", "洗う", "暗い", "階段"], render: commonRender },
+        { q1: "16. 新幹線に（　）する。", ans1: "乗車", q2: "16. 大阪駅で（　）する。", ans2: "降車", type: "antonym", choices: ["乗車", "降車", "布", "焼く", "薄い", "信号"], render: commonRender },
+        { q1: "17. 水生生物が（　）して陸上に上がった。", ans1: "進化", q2: "17. 深海の生物の多くは目が（　）している。", ans2: "退化", type: "antonym", choices: ["進化", "退化", "靴", "縫う", "痛い", "電車"], render: commonRender },
+        { q1: "18. 難しい手術が（　）した。", ans1: "成功", q2: "18. 手順を誤って（　）した。", ans2: "失敗", type: "antonym", choices: ["成功", "失敗", "鍵", "切る", "若い", "切手"], render: commonRender },
+        { q1: "19. のどがかわいて（　）の水を飲んだ。", ans1: "多量", q2: "19. （　）でも効果のある薬。", ans2: "少量", type: "antonym", choices: ["多量", "少量", "箱", "振る", "怖い", "公園"], render: commonRender },
+        { q1: "20. 最終ランナーが、聖火台に（　）する。", ans1: "点火", q2: "20. 消防車が出動して（　）する。", ans2: "消火", type: "antonym", choices: ["点火", "消火", "皿", "拭く", "脆い", "図鑑"], render: commonRender },
+        { q1: "21. 小学生が集団で（　）する。", ans1: "登校", q2: "21. 台風が来るので早めに（　）する。", ans2: "下校", type: "antonym", choices: ["登校", "下校", "傘", "差す", "遠い", "辞書"], render: commonRender },
+        { q1: "22. 富士（　）を楽しむ。", ans1: "登山", q2: "22. 全員が無事に（　）した。", ans2: "下山", type: "antonym", choices: ["登山", "下山", "椅子", "座る", "近い", "名刺"], render: commonRender },
+        { q1: "23. 関係者（　）は入れない場所。", ans1: "以外", q2: "23. 十日（　）には帰ってくる。", ans2: "以内", type: "antonym", choices: ["以外", "以内", "鞄", "持つ", "賢い", "切符"], render: commonRender },
+        { q1: "24. （　）だけ勢い良くても仕方がない。", ans1: "最初", q2: "24. （　）まで責任を持って取り組む。", ans2: "最後", type: "antonym", choices: ["最初", "最後", "机", "叩く", "汚い", "手帳"], render: commonRender },
+        { q1: "25. 日本（　）の湖は琵琶湖です。", ans1: "最大", q2: "25. バチカン市国は世界（　）の国です。", ans2: "最小", type: "antonym", choices: ["最大", "最小", "鉢", "植える", "速い", "封筒"], render: commonRender },
+        { q1: "26. 日本（　）の川は信濃川です。", ans1: "最長", q2: "26. 登頂までの（　）記録を更新する。", ans2: "最短", type: "antonym", choices: ["最長", "最短", "紐", "結ぶ", "遅い", "地図"], render: commonRender },
+        { q1: "27. （　）日数が足りないと、進級できない。", ans1: "出席", q2: "27. （　）が続いているようで心配である。", ans2: "欠席", type: "antonym", choices: ["出席", "欠席", "箸", "食べる", "鋭い", "名簿"], render: commonRender },
+        { q1: "28. 桜並木を通って、（　）式に向かう。", ans1: "入学", q2: "28. （　）式で第二ボタンを記念にもらった。", ans2: "卒業", type: "antonym", choices: ["入学", "卒業", "門", "開ける", "鈍い", "校門"], render: commonRender },
+        { q1: "29. ひかえめであることは日本人の（　）だ。", ans1: "美点", q2: "29. 妹の（　）を責める。", ans2: "欠点", type: "antonym", choices: ["美点", "欠点", "紙", "書く", "涼しい", "黒板"], render: commonRender },
+        { q1: "30. （　）な歌手の歌を聞いた。", ans1: "有名", q2: "30. （　）時代には目立たなかったが…", ans2: "無名", type: "antonym", choices: ["有名", "無名", "声", "出す", "熱い", "合唱"], render: commonRender }
+    ]
+};

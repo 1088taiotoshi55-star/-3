@@ -1,0 +1,38 @@
+if (!window.quizSets) window.quizSets = [];
+window.quizSets[5] = {
+    title: "対義語（その3）",
+    questions: [
+        { q1: "63. 列車のダイヤが（　）にもどる。", ans1: "正常", q2: "63. 今年の夏の暑さは（　）だった。", ans2: "異常", type: "antonym", choices: ["正常", "異常", "掃除機", "磨く", "遅い", "標識"], render: commonRender },
+        { q1: "64. 今までの実績を（　）して良い評価を下す。", ans1: "重視", q2: "64. 他人の発言を（　）してはいけない。", ans2: "軽視", type: "antonym", choices: ["重視", "軽視", "天井", "叩く", "丸い", "評価"], render: commonRender },
+        { q1: "65. バスが定時に（　）する。", ans1: "発車", q2: "65. 各駅に（　）する列車。", ans2: "停車", type: "antonym", choices: ["発車", "停車", "メガネ", "書く", "暑い", "玄関"], render: commonRender },
+        { q1: "66. やかんで（　）をわかす。", ans1: "熱湯", q2: "66. （　）機で水を飲む。", ans2: "冷水", type: "antonym", choices: ["熱湯", "冷水", "鉛筆", "走る", "寒い", "標識"], render: commonRender },
+        { q1: "67. 号令とともに全員で（　）する。", ans1: "起立", q2: "67. つかれてしまうから、（　）して聞いてください。", ans2: "着席", type: "antonym", choices: ["起立", "着席", "扇風機", "歌う", "重い", "礼儀"], render: commonRender },
+        { q1: "68. 地球は地軸を中心に（　）している。", ans1: "自転", q2: "68. 地球は太陽を中心に（　）している。", ans2: "公転", type: "antonym", choices: ["自転", "公転", "バナナ", "跳ぶ", "青い", "宇宙"], render: commonRender },
+        { q1: "69. 全治三か月の（　）を負った。", ans1: "重傷", q2: "69. 大事故だったが、（　）で済んで良かった。", ans2: "軽傷", type: "antonym", choices: ["重傷", "軽傷", "トイレ", "泳ぐ", "赤い", "病院"], render: commonRender },
+        { q1: "70. 目的地に向かって（　）する。", ans1: "出発", q2: "70. 三時までには（　）する予定です。", ans2: "到着", type: "antonym", choices: ["出発", "到着", "リンゴ", "寝る", "広い", "予定"], render: commonRender },
+        { q1: "71. 物価の（　）に歯止めがかからない。", ans1: "上昇", q2: "71. 内閣支持率が（　）し始めた。", ans2: "下降", type: "antonym", choices: ["上昇", "下降", "カレー", "洗う", "固い", "経済"], render: commonRender },
+        { q1: "72. この地点で谷川が（　）に合流している。", ans1: "本流", q2: "72. 川はいくつかの（　）に分かれていく。", ans2: "支流", type: "antonym", choices: ["本流", "支流", "帽子", "縫う", "長い", "合流"], render: commonRender },
+        { q1: "73. 彼は人畜（　）な存在だ。", ans1: "無害", q2: "73. 何事もやりすぎは（　）無益である。", ans2: "有害", type: "antonym", choices: ["無害", "有害", "財布", "盗む", "厚い", "存在"], render: commonRender },
+        { q1: "74. 人間は誰でも（　）であるべきだ。", ans1: "平等", q2: "74. 見た目で人を（　）してはいけない。", ans2: "差別", type: "antonym", choices: ["平等", "差別", "看板", "飾る", "鋭い", "自由"], render: commonRender },
+        { q1: "75. 日本橋は東海道の（　）だ。", ans1: "起点", q2: "75. （　）までバスに乗った。", ans2: "終点", type: "antonym", choices: ["起点", "終点", "電球", "喋る", "細い", "地図"], render: commonRender },
+        { q1: "76. 病院から外出する（　）をもらう。", ans1: "許可", q2: "76. 危険な場所なので、通行を（　）する。", ans2: "禁止", type: "antonym", choices: ["許可", "禁止", "石鹸", "練る", "深い", "許可"], render: commonRender },
+        { q1: "77. 心がこもっていない（　）だけのあいさつ。", ans1: "形式", q2: "77. ミスの多い試合の（　）に不満が残った。", ans2: "内容", type: "antonym", choices: ["形式", "内容", "風船", "割る", "速い", "形式"], render: commonRender },
+        { q1: "78. 志を高く持って生きていきたい（　）。", ans1: "理想", q2: "78. 夢ばかり追わずに（　）も見据えるべきだ。", ans2: "現実", type: "antonym", choices: ["理想", "現実", "消しゴム", "拾う", "遅い", "志"], render: commonRender },
+        { q1: "79. 新入社員の今後の活躍に（　）したい。", ans1: "期待", q2: "79. 既報が上がらず（　）の色をかくせない。", ans2: "失望", type: "antonym", choices: ["期待", "失望", "楽器", "弾く", "脆い", "期待"], render: commonRender },
+        { q1: "80. 治安が良い町なので、住民が（　）している。", ans1: "増加", q2: "80. 年々、子どもの数が（　）している。", ans2: "減少", type: "antonym", choices: ["増加", "減少", "切手", "貼る", "柔い", "住民"], render: commonRender },
+        { q1: "81. 希望に燃えて入学する。", ans1: "希望", q2: "81. 何もうまくいかず深い（　）におそわれる。", ans2: "絶望", type: "antonym", choices: ["希望", "絶望", "暖簾", "潜る", "苦い", "希望"], render: commonRender },
+        { q1: "82. 誰にも秘密を明かさぬよう（　）を誓う。", ans1: "出生", q2: "82. 事故によって（　）する。", ans2: "死亡", type: "antonym", choices: ["出生", "死亡", "毛布", "畳む", "甘い", "秘密"], render: commonRender },
+        { q1: "83. 市議会議員に（　）する。", ans1: "当選", q2: "83. ほんのわずかの差で（　）してしまった。", ans2: "落選", type: "antonym", choices: ["当選", "落選", "通帳", "記帳する", "軽い", "議員"], render: commonRender },
+        { q1: "84. （　）との交際を禁止される。", ans1: "異性", q2: "84. （　）だからこそわかり合えることもある。", ans2: "同性", type: "antonym", choices: ["異性", "同性", "鉢", "植える", "薄い", "交際"], render: commonRender },
+        { q1: "85. 駅伝で（　）でつけた差を縮められた。", ans1: "往路", q2: "85. 旅の（　）は飛行機ではなく電車にした。", ans2: "復路", type: "antonym", choices: ["往路", "復路", "鞄", "持つ", "鈍い", "駅伝"], render: commonRender },
+        { q1: "86. この日にはりっぱな映画を見に行く。", ans1: "非番", q2: "86. そうじの（　）はめんどうだ。", ans2: "当番", type: "antonym", choices: ["非番", "当番", "名刺", "配る", "暗い", "映画"], render: commonRender },
+        { q1: "87. 有益な情報には報奨金が出る。", ans1: "有益", q2: "87. （　）な争いはやめましょう。", ans2: "無益", type: "antonym", choices: ["有益", "無益", "家系図", "書く", "痛い", "情報"], render: commonRender },
+        { q1: "88. 無農薬栽培で野菜を（　）する。", ans1: "生産", q2: "88. お金を湯水のように（　）する。", ans2: "消費", type: "antonym", choices: ["生産", "消費", "浮輪", "膨らます", "若い", "栽培"], render: commonRender },
+        { q1: "89. 法律を変えるには、（　）な手続きが必要だ。", ans1: "複雑", q2: "89. 今回のテストは、（　）な計算ミスで失点した。", ans2: "単純", type: "antonym", choices: ["複雑", "単純", "金槌", "叩く", "怖い", "法律"], render: commonRender },
+        { q1: "90. 勉強のために図書館と家を（　）する。", ans1: "往復", q2: "90. 目的地まで（　）だけで五キロ離れている。", ans2: "片道", type: "antonym", choices: ["往復", "片道", "コンテナ", "運ぶ", "鋭い", "勉強"], render: commonRender },
+        { q1: "91. 積極的に多くの意見を言う。", ans1: "積極", q2: "91. 話し合いで、何も言わずに（　）的な態度をとる。", ans2: "消極", type: "antonym", choices: ["積極", "消極", "鋏", "切る", "多い", "積極"], render: commonRender },
+        { q1: "92. 毎日、おふろに入って（　）にする。", ans1: "清潔", q2: "92. （　）な人は周りを不快にする。", ans2: "不潔", type: "antonym", choices: ["清潔", "不潔", "絵画", "描く", "太い", "清潔"], render: commonRender },
+        { q1: "93. 肉体をきたえあげると心も強くなる。", ans1: "肉体", q2: "93. （　）を統一して集中する。", ans2: "精神", type: "antonym", choices: ["肉体", "精神", "電池", "替える", "短い", "肉体"], render: commonRender },
+        { q1: "94. 花粉を運ぶミツバチは（　）だ。", ans1: "益虫", q2: "94. イナゴは稲の（　）だ。", ans2: "害虫", type: "antonym", choices: ["益虫", "害虫", "枕", "投げる", "細い", "花粉"], render: commonRender }
+    ]
+};
